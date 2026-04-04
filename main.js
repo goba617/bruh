@@ -65,10 +65,10 @@ function draw() {
   let now=performance.now();
   let ifFps=now-when;
   if(ifFps<fpsTime){
-    when=now
     return;
     //直接跳過//
   };
+  when=now;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.beginPath(360, 200);
   ctx.moveTo(boss.x, boss.y);
