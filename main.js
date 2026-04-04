@@ -51,10 +51,6 @@ canvas.addEventListener("pointerdown", function() {
 canvas.addEventListener("pointerup", function() {
   ifDown = false;
 });
-canvas.addEventListener("pointermove", function(e) {
-  player.x = e.clientX;
-  player.y = e.clientY;
-});
 //先判斷是否落指//
   canvas.addEventListener("pointermove", function(e) {
     player.x = e.clientX;
@@ -131,4 +127,3 @@ function draw() {
 };
 draw();
 //啟動//
-console.log("im new")
