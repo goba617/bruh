@@ -1,4 +1,8 @@
 document.body.style.color = "#000";
+let fps=60;
+let fpsTime=1000/fps;
+let when=performance.now();
+//碼錶設定初始時間//
 let timer={a:0,b:0,cha:0};
 let ifDown = false;
 let ifBreak = false;
@@ -57,6 +61,14 @@ canvas.addEventListener("pointerup", function() {
     player.y = e.clientY;
   });
 function draw() {
+  requestAnimationFrame(draw);
+  let now=performance.now();
+  let ifFps=now-when;
+  if(ifFps<fpsTime){
+    when=now
+    return;
+    //直接跳過//
+  };
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.beginPath(360, 200);
   ctx.moveTo(boss.x, boss.y);
@@ -123,7 +135,6 @@ function draw() {
     i--; 
   };
 };
-    requestAnimationFrame(draw);
 };
 draw();
 //啟動//
