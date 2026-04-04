@@ -118,6 +118,15 @@ function draw() {
       };
     };
   };
+  for (let i = 0; i < bullet.length; i++) {
+  let b = bullet[i];
+
+  // 檢查是否超出邊界（上下左右都要判斷）
+  if (b.y < 0 || b.y > canvas.height || b.x < 0 || b.x > canvas.width) {
+    bullet.splice(i, 1); 
+    i--; 
+  };
+};
     requestAnimationFrame(draw);
 };
 draw();
