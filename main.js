@@ -12,13 +12,13 @@ let player = {
 };
 //玩家預設位子//
 let bullet = [];
-let mid={
-  x:460,
-  y:280
-};
 let boss = {
-  x:360,
+  x:window.innerWidth/2-100,
   y:200
+};
+let mid = {
+  x: boss.x+100,
+  y: 280
 };
 let bulleta = [];
 let playerPx = window.screen.width / 2 - player.width / 2;
