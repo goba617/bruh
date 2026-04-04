@@ -131,3 +131,4 @@ function draw() {
 };
 draw();
 //啟動//
+console.log("im new")
