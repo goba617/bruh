@@ -1,9 +1,36 @@
+document.getElementById("die").style.display="none";
+let ifbackAttack = true;
+let fun = 0;
+//有趣的//
+function again(){
+  //重置數值//
+  score=0;
+  grades=0;
+  health=3;
+  ifOver=false;
+  bullet=[];
+  timer={a:0,b:0,c:0,d:0,e:0,cha:0};
+  player.x = window.innerWidth/2;
+  player.y = 600;
+  document.getElementById("scores").innerText = "your score=" + score;
+  document.getElementById("grade").innerText = "LeveL-" + grades;
+  draw();
+};
+document.addEventListener("click",
+function(){
+  if(ifOver){
+    again();
+    document.getElementById("die").style.display="none";
+}});
 document.body.style.color = "#000";
+let ifOver = false;
+let health=3;
+let grades=0;
 let fps=60;
 let fpsTime=1000/fps;
 let when=performance.now();
 //碼錶設定初始時間//
-let timer={a:0,b:0,cha:0};
+let timer={a:0,b:0,c:0,d:0,e:0,f:0,fun:0,cha:0};
 let ifDown = false;
 let ifBreak = false;
 let score = 0;
@@ -16,6 +43,7 @@ let player = {
 };
 //玩家預設位子//
 let bullet = [];
+let breakBullet = [];
 let boss = {
   x:window.innerWidth/2-100,
   y:200
@@ -46,8 +74,17 @@ ctx.closePath();
 ctx.lineWidth = 2;
 ctx.stroke();
 //畫出基礎物件//
-function spawnB(x, y, vx, vy, type) {
-  bullet.push({ x, y, vx, vy, type });
+function spawnB(x, y, vx, vy, type,ifSplitA,ifSplitB,) {
+  bullet.push({ x, y, vx, vy, type,ifSplitA,ifSplitB,life:0});
+};
+function sniperB(type){
+  let sniperspeed=7;
+  let sx=player.x+player.width/2-mid.x;
+  let sy=player.y+player.height/2-mid.y;
+  let st=Math.sqrt(sx*sx+sy*sy);
+  let sniperX=(sx/st)*sniperspeed;
+  let sniperY=(sy/st)*sniperspeed;
+  spawnB(mid.x,mid.y,sniperX,sniperY,"enemy",false);
 };
 canvas.addEventListener("pointerdown", function() {
   ifDown = true;
@@ -61,6 +98,10 @@ canvas.addEventListener("pointerup", function() {
     player.y = e.clientY;
   });
 function draw() {
+  if(ifOver){
+    document.getElementById("die").style.display="block";
+    return;
+  };
   requestAnimationFrame(draw);
   let now=performance.now();
   let ifFps=now-when;
@@ -87,33 +128,193 @@ function draw() {
   timer.b++;
   timer.cha++;
   //以下使用計時器創造子彈//
-  if(timer.a>=25){
+  if(score>=0 && score <=4000){
+    if (timer.a >= 35) {
     timer.a = 0;
-    spawnB(mid.x,mid.y,0,5,"enemy");
+    spawnB(mid.x, mid.y, 0, 5, "enemy", false, false);
   };
-  if(timer.b>=25){
-    timer.b = 0;
-    spawnB(mid.x,mid.y,2,5,"enemy");
+  if(score>=4000){
+    if(timer.a >= 40){
+      timer.a = 0
+      spawnB(mid.x,mid.y,0,5,"enemy",false,false);
+    }
+  }
+  }
+  if (score>=1000 && score<=1500){
+    timer.c++;
+    grades = 1;
+    if (timer.c >= 35) {
+    timer.c = 0;
+    sniperB("enemy");
+    };
   };
+  if (2300 >=score&&score >= 1600) {
+    timer.c++;
+    grades = 2;
+    if (timer.c >= 20) {
+      timer.c = 0;
+      sniperB("enemy");
+    };
+  };
+  if (score >= 2500 ) {
+    timer.c++;
+    grades = 3;
+    if (timer.c >= 15) {
+      timer.c = 0;
+      sniperB("enemy");
+    };
+  };
+  if(score >=2200){
+    timer.d++;
+    grades = 3;
+    if(timer.d >= 1){
+      timer.d=0;
+      spawnB(mid.x,mid.y,3,2,"enemy",false,false);
+      spawnB(mid.x,mid.y,-3,2,"enemy",false,false);
+    }
+  }
+  //受擊反擊系統//
+  let backAttack = 0;
+  backAttack=score%300;
+  if(backAttack==0&&score>=2500&&ifbackAttack == true){
+    spawnB(mid.x,mid.y,0,2,"enemy",false,false);
+    spawnB(mid.x,mid.y,2,2,"enemy",false,false);
+    spawnB(mid.x,mid.y,4,2,"enemy",false,false);
+    spawnB(mid.x,mid.y,-2,2,"enemy",false,false);
+    spawnB(mid.x,mid.y,-4,2,"enemy",false,false);
+    
+    ifbackAttack = false;
+  };
+  if(backAttack != 0){
+    ifbackAttack = true;
+  }
+  if(score>=3500){
+    
+  };
+  if(score>=4000){
+    timer.e++;
+    if(timer.e>=100){
+      timer.e=0;
+      spawnB(mid.x,mid.y,2,5,"enemy",true,false);
+      spawnB(mid.x,mid.y,-2,5,"enemy",true,false);
+      spawnB(mid.x,mid.y,1,5,"enemy",false,true);
+      spawnB(mid.x,mid.y,-1,5,"enemy",false,true);
+    };
+  };
+  if(score >=5000){
+    timer.f++;
+    if(timer.f>=150){
+      timer.f=0;
+      spawnB(mid.x,mid.y,0,8,"enemy",true,true);
+    }
+  }
+  if(score>=8000){
+    timer.fun++;
+    if(timer.fun >= 80){
+      timer.fun=0;
+      fun = Math.floor(Math.random()*100);
+      if(fun>=1&&fun<=33){
+        spawnB(mid.x,mid.y,Math.floor(Math.random()*6),Math.floor(Math.random()*6),"enemy",true,false);
+      }
+      else if(fun>33&&fun<=66){
+        spawnB(mid.x,mid.y,Math.floor(Math.random()*6),Math.floor(Math.random()*6),"enemy",false,true);
+      }
+      else if(fun>66&&fun<=99){
+        spawnB(mid.x,mid.y,Math.floor(Math.random()*6),Math.floor(Math.random()*6),"enemy",true,true);
+      }
+      else{
+        spawnB(mid.x,mid.y,Math.floor(Math.random()*6),Math.floor(Math.random()*6),"enemy",true,false);
+        spawnB(mid.x,mid.y,Math.floor(Math.random()*6),Math.floor(Math.random()*6),"enemy",false,true);
+        spawnB(mid.x,mid.y,Math.floor(Math.random()*6),Math.floor(Math.random()*6),"enemy",true,true);
+      };
+    }
+  }
   if(timer.cha>=30){
     timer.cha = 0;
-    spawnB(player.x+player.width/2,player.y-player.height,0,-20,"player");
+    spawnB(player.x+player.width/2,player.y-player.height,0,-20,"player",false,false);
   };
   //再使用迴圈真的畫出子彈//
-  ctx.fillStyle = "#ffffff";
   for (let i = 0; i < bullet.length; i++) {
     let b = bullet[i];
     b.x += b.vx;
     b.y += b.vy;
     ctx.beginPath();
     ctx.arc(b.x, b.y, 5, 0, Math.PI * 2);
+    if (b.type == "player") {
+      ctx.fillStyle = "#ffffff";
+    }
+    else if (b.ifSplitA && b.ifSplitB) {
+      ctx.fillStyle = "#00ff00";
+    }
+    else if (b.ifSplitA) {
+      ctx.fillStyle = "#0000ff";
+    }
+    else if (b.ifSplitB){
+      ctx.fillStyle = "#ff0000";
+    }
+    else {
+      ctx.fillStyle = "#ffffff";
+    };
     ctx.fill();
     if(b.type==="enemy"){
       if(b.x > player.x&&b.x < player.x+player.width&&b.y > player.y&&b.y < player.y+player.height){
         bullet.splice(i,1);
         i--;
-        console.log("stop")
+        health--;
+        if(health<0){
+          console.log("stop")
+          ifOver = true;
+        };
       };
+      if(b.ifSplitA){
+        b.life++;
+        if(b.life==50){
+          b.life = 0;
+          bullet.splice(i,1);
+          i--;
+          //分裂//
+          spawnB(b.x,b.y,8,0,"enemy",false,false);
+          spawnB(b.x,b.y,0,8,"enemy",false,false);
+          spawnB(b.x,b.y,-8,0,"enemy",false,false);
+          spawnB(b.x,b.y,0,-8,"enemy",false,false);
+          
+          continue;
+        };
+      };
+      if (b.ifSplitB) {
+        b.life++;
+        if (b.life == 70) {
+          b.life = 0;
+          bullet.splice(i, 1);
+          i--;
+          //分裂//
+          spawnB(b.x, b.y, 8, 8, "enemy", false, false);
+          spawnB(b.x, b.y, -8, 8, "enemy", false, false);
+          spawnB(b.x, b.y, 8, -8, "enemy", false, false);
+          spawnB(b.x, b.y, -8, -8, "enemy", false, false);
+          
+          continue;
+        };
+      };
+      if(b.ifSplitA && b.ifSplitB){
+        b.life++;
+        if(b.life >= 60){
+          b.life = 0;
+          bullet.splice(i,1);
+          i--;
+          
+          spawnB(b.x, b.y, 6, 6, "enemy", false, false);
+          spawnB(b.x, b.y, -6, 6, "enemy", false, false);
+          spawnB(b.x, b.y, 6, -6, "enemy", false, false);
+          spawnB(b.x, b.y, -6, -6, "enemy", false, false);
+          spawnB(b.x, b.y, 8, 0, "enemy", false, false);
+          spawnB(b.x, b.y, 0, 8, "enemy", false, false);
+          spawnB(b.x, b.y, -8, 0, "enemy", false, false);
+          spawnB(b.x, b.y, 0, -8, "enemy", false, false);
+          
+          continue;
+        }
+      }
     };
     if (b.type === "player") {
       if (b.x > boss.x && b.x < boss.x + 200 &&
@@ -123,6 +324,7 @@ function draw() {
       score = score +100
         console.log("nice")
         document.getElementById("scores").innerText="your score="+score;
+        document.getElementById("grade").innerText="LeveL-"+grades;
       };
     };
   };
