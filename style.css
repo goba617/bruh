@@ -9,5 +9,9 @@ body{
   font-size: 24px;
 }
 canvas{
-  touch-action: none;
+  touch-action:none;
+}
+#die{
+  color: orangered;
+  font-size: 40px;
 }
