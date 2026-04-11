@@ -129,10 +129,16 @@ function draw() {
   timer.cha++;
   //以下使用計時器創造子彈//
   if(score>=0 && score <=4000){
-    if (timer.a >= 50) {
+    if (timer.a >= 35) {
     timer.a = 0;
     spawnB(mid.x, mid.y, 0, 5, "enemy", false, false);
   };
+  if(score>=4000){
+    if(timer.a >= 40){
+      timer.a = 0
+      spawnB(mid.x,mid.y,0,5,"enemy",false,false);
+    }
+  }
   }
   if (score>=1000 && score<=1500){
     timer.c++;
@@ -145,7 +151,7 @@ function draw() {
   if (2300 >=score&&score >= 1600) {
     timer.c++;
     grades = 2;
-    if (timer.c >= 30) {
+    if (timer.c >= 20) {
       timer.c = 0;
       sniperB("enemy");
     };
@@ -153,7 +159,7 @@ function draw() {
   if (score >= 2500 ) {
     timer.c++;
     grades = 3;
-    if (timer.c >= 25) {
+    if (timer.c >= 15) {
       timer.c = 0;
       sniperB("enemy");
     };
@@ -163,8 +169,8 @@ function draw() {
     grades = 3;
     if(timer.d >= 1){
       timer.d=0;
-      spawnB(mid.x,mid.y,3,1,"enemy",false,false);
-      spawnB(mid.x,mid.y,-3,1,"enemy",false,false);
+      spawnB(mid.x,mid.y,3,2,"enemy",false,false);
+      spawnB(mid.x,mid.y,-3,2,"enemy",false,false);
     }
   }
   //受擊反擊系統//
@@ -204,7 +210,7 @@ function draw() {
   }
   if(score>=8000){
     timer.fun++;
-    if(timer.fun >= 80){
+    if(timer.fun >= 100){
       timer.fun=0;
       fun = Math.floor(Math.random()*100);
       if(fun>=1&&fun<=33){
@@ -220,7 +226,7 @@ function draw() {
         spawnB(mid.x,mid.y,Math.floor(Math.random()*6),Math.floor(Math.random()*6),"enemy",true,false);
         spawnB(mid.x,mid.y,Math.floor(Math.random()*6),Math.floor(Math.random()*6),"enemy",false,true);
         spawnB(mid.x,mid.y,Math.floor(Math.random()*6),Math.floor(Math.random()*6),"enemy",true,true);
-      };
+      }
     }
   }
   if(timer.cha>=30){
