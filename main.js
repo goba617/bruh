@@ -294,7 +294,7 @@ function draw() {
           continue;
         }
       }
-      if(b.ifSplitA){
+      else if(b.ifSplitA){
         b.life++;
         if(b.life==50){
           b.life = 0;
@@ -308,8 +308,8 @@ function draw() {
           
           continue;
         };
-      };
-      if (b.ifSplitB) {
+      }
+      else if (b.ifSplitB) {
         b.life++;
         if (b.life == 70) {
           b.life = 0;
