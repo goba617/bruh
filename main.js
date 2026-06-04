@@ -9,7 +9,7 @@ function again(){
   score=0;
   funPoint=100;
   grades=0;
-  health=3;
+  health=4;
   ifOver=false;
   bullet=[];
   timer={a:0,b:0,c:0,d:0,e:0,f:0,fun:0,cha:0};
