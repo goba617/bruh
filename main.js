@@ -17,6 +17,7 @@ function again(){
   player.y = 600;
   document.getElementById("scores").innerText = "your score=" + score;
   document.getElementById("grade").innerText = "LeveL-" + grades;
+
   draw();
 };
 document.addEventListener("click",
@@ -27,7 +28,7 @@ function(){
 }});
 document.body.style.color = "#000";
 let ifOver = false;
-let health=3;
+let health=4;
 let grades=0;
 let fps=60;
 let fpsTime=1000/fps;
@@ -97,8 +98,23 @@ canvas.addEventListener("pointerup", function() {
 });
 //先判斷是否落指//
   canvas.addEventListener("pointermove", function(e) {
-    player.x = e.clientX;
-    player.y = e.clientY;
+    let finalX=e.clientX;
+    let finalY=e.clientY;
+    if(finalX < 0){
+      finalX = 0;
+    }
+    if(finalX >canvas.width-player.width){
+      finalX = canvas.width-player.width;
+    }
+    
+    if (finalY < 0){
+      finalY=0;
+    }
+    if (finalY > canvas.height- player.height) {
+    finalY = canvas.height - player.height;
+    }
+    player.x=finalX;
+    player.y=finalY;
   });
 function draw() {
   if(ifOver){
@@ -270,7 +286,7 @@ function draw() {
         bullet.splice(i,1);
         i--;
         health--;
-        if(health<0){
+        if(health<1){
           console.log("stop")
           ifOver = true;
         };
@@ -336,6 +352,7 @@ function draw() {
         document.getElementById("grade").innerText="LeveL-"+grades;
       };
     };
+    document.getElementById("health2").innerText = "Your health=" + health;
   };
   for (let i = 0; i < bullet.length; i++) {
   let b = bullet[i];
@@ -344,8 +361,8 @@ function draw() {
   if (b.y < 0 || b.y > canvas.height || b.x < 0 || b.x > canvas.width) {
     bullet.splice(i, 1); 
     i--; 
+    };
   };
-};
 };
 draw();
 //啟動//
